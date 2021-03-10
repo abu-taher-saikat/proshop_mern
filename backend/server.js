@@ -1,8 +1,11 @@
-import dotenv from 'dotenv';
-import express from 'express'
-import products from './data/products.js';
-import connectDB from './config/db.js';
-import colors from 'colors';
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const productRouter = require('./routes/productRouter');
+const colors = require('colors');
+
+
+
 
 
 dotenv.config({path : './config/config.env'});
@@ -20,15 +23,7 @@ app.get('/',(req,res)=> {
     res.status('Api is running....')
 })
 
+app.use('/api/products', productRouter);
 
-app.get('/api/products',(req,res)=>{
-    res.json(products);
-})
-
-
-app.get('/api/products/:id',(req,res)=>{
-    const product = products.find(p => p._id === req.params.id)
-    res.json(product);
-})
 
 app.listen(PORT , console.log(`Server running in ${MODE} on port ${PORT}`.yellow.bold));
