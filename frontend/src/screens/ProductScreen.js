@@ -24,10 +24,11 @@ const ProductScreen = ({history, match}) => {
     const addToCartHandler = () =>{
         history.push(`/cart/${match.params.id}?qty=${qty}`);
     }
+    
     return (
         <>
             <Link className="btn btn-dark my-3" to="/">Go Back</Link>
-            {loading ? <Loader></Loader> : error ? <Message variant='danger'>{error}</Message> : <Row>
+            {loading ? <Loader></Loader> : error ? <Message variant='danger'>{error}</Message> : (<Row>
                 <Col md={6}>
                     <Image src={product.image} fluid alt={product.name}>
 
@@ -93,7 +94,7 @@ const ProductScreen = ({history, match}) => {
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
-            </Row>}
+            </Row>) }
 
         </>
     )
