@@ -1,4 +1,3 @@
-const { reset } = require('colors');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
@@ -27,11 +26,17 @@ const authUser = asyncHandler(async (req,res) => {
     }
 })
 
+
 // @desc Register a new user
 // @route POST /api/users
 // @access Public.
 const registerUser = asyncHandler(async (req,res) => {
     const {name, email, password} = req.body;
+
+    // if(name === ' ' || email === ' ' || password === ' '){
+    //     res.status(400)
+    //     throw new Error('please input a value')
+    // }
     
     const userExists = await User.findOne({email});
 
@@ -56,7 +61,7 @@ const registerUser = asyncHandler(async (req,res) => {
         })
     }else{
         res.status(400)
-        throw new Error('Invalid user data')
+        throw new Error('Please input the values')
     }
 })
 
