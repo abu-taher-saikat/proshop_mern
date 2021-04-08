@@ -33,10 +33,18 @@ const authUser = asyncHandler(async (req,res) => {
 const registerUser = asyncHandler(async (req,res) => {
     const {name, email, password} = req.body;
 
-    // if(name === ' ' || email === ' ' || password === ' '){
-    //     res.status(400)
-    //     throw new Error('please input a value')
-    // }
+    if(name === ''){
+        res.status(400)
+        throw new Error('please provide a name')
+    }
+    if(email === ''){
+        res.status(400)
+        throw new Error('please provide an Email')
+    }
+    if(password === ''){
+        res.status(400)
+        throw new Error('please provide a Password')
+    }
     
     const userExists = await User.findOne({email});
 
