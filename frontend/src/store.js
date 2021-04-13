@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducer';
+import { orderCreateReducer } from './reducers/orderReducer';
 import { productDetailsReducer, productListReducer } from './reducers/productReducer';
 import { userDetailsReducer, userLoginReducer, userRegisterReducer, userUpdateProfileReducer } from './reducers/userReducer';
 
@@ -12,14 +13,15 @@ const reducer = combineReducers({
     userLogin : userLoginReducer,
     userRegister : userRegisterReducer,
     userDetails : userDetailsReducer,
-    userUpdateProfile : userUpdateProfileReducer
+    userUpdateProfile : userUpdateProfileReducer,
+    orderCreate : orderCreateReducer
 });
 
 
 
 //first save the data on localstorage. 
-const cartItemsFromStorage = localStorage.getItem('cartItem')
-  ? JSON.parse(localStorage.getItem('cartItem'))
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
   : []
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

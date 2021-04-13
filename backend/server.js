@@ -6,6 +6,7 @@ const {notFound, errorHandler} = require('./middleware/errorMiddleware');
 
 const productRouter = require('./routes/productRouter');
 const userRouter = require('./routes/userRouter');
+const orderRouter = require('./routes/orderRouter');
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.get('/',(req,res)=> {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 
 // Error handler middlewares . 
