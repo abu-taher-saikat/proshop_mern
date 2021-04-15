@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { listProducts } from '../actions/productActions';
+import { deleteProduct, listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -11,6 +11,9 @@ const ProductListScreen = ({history, match}) => {
     
     const productList = useSelector(state => state.productList)
     const {loading, error, products} = productList;
+    
+    const productDelete = useSelector(state => state.productDelete)
+    const {loading: loadingDelete, error:errorDelete, success : successDelete} = productDelete;
 
     const userLogin = useSelector(state => state.userLogin)
     const {userInfo} = userLogin;
@@ -21,11 +24,11 @@ const ProductListScreen = ({history, match}) => {
         }else{
             history.push('/login')
         }
-    },[dispatch, userInfo, history])
+    },[dispatch, userInfo, history, successDelete])
 
     const deleteHandler = (id) => {
         if(window.confirm('Are you sure')){
-            // delete product
+            dispatch(deleteProduct(id))
         }
     }
 
@@ -46,7 +49,9 @@ const ProductListScreen = ({history, match}) => {
                     </Button>
                 </Col>
             </Row>
-
+            {loadingDelete && <Loader />}
+            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <Table striped bordered hover responsive className="table-sm">
                     <thead>
