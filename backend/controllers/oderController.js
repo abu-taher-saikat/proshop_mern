@@ -79,9 +79,28 @@ const updateOrderToPaid = asyncHandler(async (req,res) => {
 // @access Private
 const getMyOrders = asyncHandler(async (req,res) => {
     const order = await Order.find({user : req.user._id});
+    if(!order){
+        res.status(200)
+        throw new Error('My order list is empty')
+    }
+
     res.json(order)
 })
 
 
+// @desc Get all orders
+// @route GET /api/orders
+// @access Private/Admin
+const getOrders = asyncHandler(async (req,res) => {
+    const orders = await Order.find({}).populate('user', 'id name');
 
-module.exports = {addOrderItems, getOrderById, updateOrderToPaid, getMyOrders}
+    if(!orders){
+        res.status(200)
+        throw new Error('Order list is empty..')
+    }
+    res.json(orders)
+})
+
+
+
+module.exports = {addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders }
