@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { createProductReview, listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 // import products from '../products';
 import Rating from '../components/Rating';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
@@ -56,6 +57,7 @@ const ProductScreen = ({history, match}) => {
             <Link className="btn btn-dark my-3" to="/">Go Back</Link>
             {loading ? <Loader></Loader> : error ? <Message variant='danger'>{error}</Message> : (
             <>
+                <Meta title={product.name}></Meta>
                 <Row>
                 <Col md={6}>
                     <Image src={product.image} fluid alt={product.name}>
