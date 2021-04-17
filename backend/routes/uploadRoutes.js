@@ -8,7 +8,7 @@ const colors = require('colors');
 const storage = multer.diskStorage({
     destination(req, file, cb) {
       // cb(null, './uploads/')
-      cb(null, 'frontend/public/images/')
+      cb(null, 'frontend/build/images/')
     },
     filename(req, file, cb) {
       cb(

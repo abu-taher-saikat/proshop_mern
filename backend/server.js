@@ -32,9 +32,6 @@ connectDB();
 
 app.use(express.json());
 
-app.get('/',(req,res)=> {
-    res.status('Api is running....')
-})
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
@@ -46,8 +43,21 @@ app.get('/api/config/paypal', (req, res) => {
     res.send(process.env.PAYPAL_CLIENT_ID)
 })
 
-// const __dirname = path.resolve(); // it's for module import type. 
-app.use('/uploads', express.static(path.join(__dirname , '/images')))
+console.log(process.env.NODE_ENV);
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname, '../frontend/build')))
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/build','build', 'index.html'))
+    })
+}else{
+    app.get('/',(req,res)=> {
+        res.status('Api is running....')
+    })
+
+}
+
+
 
 // Error handler middlewares . 
 app.use(notFound);
