@@ -5,14 +5,16 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { createProduct, deleteProduct, listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 
 const ProductListScreen = ({history, match}) => {
+    const pageNumber = match.params.pageNumber || 1;
     const dispatch = useDispatch()
     
     const productList = useSelector(state => state.productList)
-    const {loading, error, products} = productList;
+    const {loading, error, products, pages, page} = productList;
     
     const productDelete = useSelector(state => state.productDelete)
     const {loading: loadingDelete, error:errorDelete, success : successDelete} = productDelete;
@@ -35,9 +37,9 @@ const ProductListScreen = ({history, match}) => {
         if(successCreate){
             history.push(`/admin/product/${createdProduct._id}/edit`)
         }else{
-            dispatch(listProducts())
+            dispatch(listProducts('', pageNumber))
         }
-    },[dispatch, userInfo, history, successDelete, successCreate, createdProduct])
+    },[dispatch, userInfo, history, successDelete, successCreate, createdProduct, pageNumber])
 
     const deleteHandler = (id) => {
         if(window.confirm('Are you sure')){
@@ -69,6 +71,7 @@ const ProductListScreen = ({history, match}) => {
             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+                <>
                 <Table striped bordered hover responsive className="table-sm">
                     <thead>
                         <tr>
@@ -104,6 +107,8 @@ const ProductListScreen = ({history, match}) => {
                         ))}
                     </tbody>
                 </Table>
+                <Paginate pages={pages} page={page}  isAdmin={true}></Paginate>
+                </>
             )}
         </>
     )
