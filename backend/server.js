@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const connectDB = require('./config/db');
 const colors = require('colors');
+const morgan = require('morgan');
 const {notFound, errorHandler} = require('./middleware/errorMiddleware');
 
 const productRouter = require('./routes/productRouter');
@@ -12,6 +13,12 @@ const uploadRoutes = require('./routes/uploadRoutes');
 
 
 const app = express();
+
+app.use(morgan('dev'));
+
+// if(process.env.NODE_ENV === 'development'){
+//     app.use(morgan('dev'))
+// }
 
 
 dotenv.config({path : './backend/config/.env'});
